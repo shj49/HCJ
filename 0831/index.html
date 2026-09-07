@@ -2,8 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경주 5인 MT 일정 안내 / 慶州5人MT日程案内</title>
+    <base target="_top">
     <style>
         :root {
             --primary-color: #2b5876;
@@ -37,6 +36,12 @@
             margin-bottom: 30px;
         }
 
+        .header-title-area {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         h1 {
             margin: 0;
             font-size: 1.8rem;
@@ -52,10 +57,49 @@
             cursor: pointer;
             font-weight: bold;
             transition: opacity 0.2s;
+            height: fit-content;
         }
 
         .lang-btn:hover {
             opacity: 0.9;
+        }
+
+        /* QR 코드 카드 스타일 */
+        .qr-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .qr-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .qr-info h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .qr-info p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .qr-info a {
+            color: var(--secondary-color);
+            word-break: break-all;
+            font-weight: 500;
         }
 
         .card {
@@ -111,8 +155,10 @@
 
         @media (max-width: 600px) {
             body { padding: 12px; }
-            .card { padding: 16px; }
+            .card, .qr-card { padding: 16px; }
+            .qr-card { flex-direction: column; text-align: center; }
             th, td { font-size: 0.9rem; padding: 10px; }
+            h1 { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -120,9 +166,20 @@
 
 <div class="container">
     <header>
-        <h1 id="main-title">경주 5인 MT 일정 안내</h1>
+        <div class="header-title-area">
+            <h1 id="main-title">경주 5인 MT 일정 안내</h1>
+        </div>
         <button class="lang-btn" onclick="toggleLanguage()" id="lang-btn">日本語</button>
     </header>
+
+    <div class="qr-card">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://url.kr/mebn52" alt="QR Code">
+        <div class="qr-info">
+            <h3 id="qr-title">페이지 공유 QR 코드</h3>
+            <p id="qr-desc">스마트폰 카메라로 QR 코드를 스캔하면 이 일정을 손쉽게 공유하고 모바일에서 확인하실 수 있습니다.</p>
+            <p style="margin-top: 6px;"><a href="https://url.kr/mebn52" target="_blank">https://url.kr/mebn52</a></p>
+        </div>
+    </div>
 
     <div class="card">
         <h2 id="route-title">1. 부산역 출발 추천 이동 경로 (5인 기준)</h2>
@@ -185,6 +242,8 @@
         ko: {
             btnText: "日本語",
             mainTitle: "경주 5인 MT 일정 안내",
+            qrTitle: "페이지 공유 QR 코드",
+            qrDesc: "스마트폰 카메라로 QR 코드를 스캔하면 이 일정을 손쉽게 공유하고 모바일에서 확인하실 수 있습니다.",
             routeTitle: "1. 부산역 출발 추천 이동 경로 (5인 기준)",
             routeList: `
                 <li><strong>SRT / KTX 이용 (가장 빠르고 편한 방법)</strong><br>
@@ -228,63 +287,18 @@
         ja: {
             btnText: "한국어",
             mainTitle: "慶州 5人MT日程案内",
-            routeTitle: "1. 釜山駅出発 おすすめ logical 移動ルート (5人基準)",
+            qrTitle: "ページ共有QRコード",
+            qrDesc: "スマートフォンカメラでQRコードをスキャンすると、この日程を簡単に共有・確認できます。",
+            routeTitle: "1. 釜山駅出発 おすすめ移動ルート (5人基準)",
             routeList: `
                 <li><strong>SRT / KTX 利用（最も速く快適な方法）</strong><br>
                     ルート: 釜山駅 &rarr; 新慶州駅（KTX/SRTで約30分、1人片道約11,000ウォン）</li>
                 <li><strong>新慶州駅到着後の現地移動:</strong><br>
-                    5人のため、新慶州駅からカ카오Tベンティ（大型タクシー）1台を呼ぶか、一般タクシー2台で皇理団路（ファンリダンギル）まで移動（約20分、ベン티基準約20,000ウォン前後）。<br>
+                    5人のため、新慶州駅からカ카오Tベンティ（大型タクシー）1台を呼ぶか、一般タクシー2台で皇理団路（ファンリダンギル）まで移動（約20分、ベンティ基準約20,000ウォン前後）。<br>
                     または新慶州駅SOCARゾーンでカーニバル/5人乗り以上のSUVをレンタカーして出発。</li>
             `,
             scheduleTitle: "2. 動線最適化 1泊2日 スケジュール表",
             thTime: "時間帯",
             thDay1: "1日目の日程",
             thDay2: "2日目の日程",
-            scheduleBody: `
-                <tr>
-                    <td><strong>午前 (10:30~11:30)</strong></td>
-                    <td>釜山駅出発 &rarr; 慶州へ移動<br><small>（列車 30分 / 車 1時間10分）</small></td>
-                    <td>宿チェックアウト &rarr; 普門団地へ移動</td>
-                </tr>
-                <tr>
-                    <td><strong>昼食 (11:30~13:00)</strong></td>
-                    <td>皇南慶州食堂 または 向花亭（ヒャンファジョン）<br><small>（皇理団路の入口に位置）</small></td>
-                    <td>咸陽集（ハミャンジプ：韓牛水刺身で二日酔い解消）または 三陵故郷カルグクス</td>
-                </tr>
-                <tr>
-                    <td><strong>午後 (13:00~16:30)</strong></td>
-                    <td>皇理団路カフェ（Skunk Works）&amp; 大陵苑/瞻星台 散策</td>
-                    <td>慶州ルージュワールド レー싱 &amp; 普門湖カフェ（Aden）</td>
-                </tr>
-                <tr>
-                    <td><strong>夕方 (16:30~21:00)</strong></td>
-                    <td>農協ハナロマート 慶州農協本店で買い出し &rarr; 宿チェックイン &amp; バーベキュー</td>
-                    <td>お土産（崔 weon화パン/皇南パン）購入後、釜山駅へ meo復帰</td>
-                </tr>
-                <tr>
-                    <td><strong>夜間 (21:00~)</strong></td>
-                    <td>月精橋 &amp; 東宮と月池 夜景ツアーおよび宿での2次会</td>
-                    <td>-</td>
-                </tr>
-            `
-        }
-    };
-
-    function toggleLanguage() {
-        currentLang = currentLang === 'ko' ? 'ja' : 'ko';
-        const langData = translations[currentLang];
-
-        document.getElementById('lang-btn').innerText = langData.btnText;
-        document.getElementById('main-title').innerText = langData.mainTitle;
-        document.getElementById('route-title').innerText = langData.routeTitle;
-        document.getElementById('route-list').innerHTML = langData.routeList;
-        document.getElementById('schedule-title').innerText = langData.scheduleTitle;
-        document.getElementById('th-time').innerText = langData.thTime;
-        document.getElementById('th-day1').innerText = langData.thDay1;
-        document.getElementById('th-day2').innerText = langData.thDay2;
-        document.getElementById('schedule-body').innerHTML = langData.scheduleBody;
-    }
-</script>
-
-</body>
-</html>
+            scheduleBody:

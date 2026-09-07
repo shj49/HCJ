@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경주 5인 MT 일정 안내 / 慶州5人MT日程案内</title>
+    <style>
+        :root {
+            --primary-color: #2b5876;
+            --secondary-color: #4e4376;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e9ecef;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .lang-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .lang-btn:hover {
+            opacity: 0.9;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f3f5;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .card { padding: 16px; }
+            th, td { font-size: 0.9rem; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 id="main-title">경주 5인 MT 일정 안내</h1>
+        <button class="lang-btn" onclick="toggleLanguage()" id="lang-btn">日本語</button>
+    </header>
+
+    <div class="card">
+        <h2 id="route-title">1. 부산역 출발 추천 이동 경로 (5인 기준)</h2>
+        <ul id="route-list">
+            <li><strong>SRT / KTX 이용 (가장 빠르고 편한 방법)</strong><br>
+                경로: 부산역 &rarr; 신경주역 (KTX/SRT로 약 30분 소요, 1인 편도 약 11,000원)</li>
+            <li><strong>신경주역 도착 후 현지 이동:</strong><br>
+                5인 인원이므로 신경주역에서 카카오 T 벤티(대형 택시) 1대를 호출하거나 일반 택시 2대로 황리단길까지 이동 (약 20분 소요, 벤티 기준 약 20,000원 내외).<br>
+                또는 신경주역 쏘카존에서 카니발/5인 이상 SUV 렌트 후 출발.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2 id="schedule-title">2. 동선 최적화 1박 2일 일정표</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="th-time">시간대</th>
+                        <th id="th-day1">1일차 일정</th>
+                        <th id="th-day2">2일차 일정</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <tr>
+                        <td><strong>오전 (10:30~11:30)</strong></td>
+                        <td>부산역 출발 &rarr; 경주 이동<br><small>(열차 30분 / 차 1시간 10분)</small></td>
+                        <td>숙소 체크아웃 &rarr; 보문단지 이동</td>
+                    </tr>
+                    <tr>
+                        <td><strong>점심 (11:30~13:00)</strong></td>
+                        <td>황남경주식당 또는 향화정<br><small>(황리단길 입구 위치)</small></td>
+                        <td>함양집 (한우물회 해장) 또는 삼릉 고향칼국수</td>
+                    </tr>
+                    <tr>
+                        <td><strong>오후 (13:00~16:30)</strong></td>
+                        <td>황리단길 카페(스컹크웍스) &amp; 대릉원/첨성대 산책</td>
+                        <td>경주루지월드 레이싱 &amp; 보문호수 카페(아덴)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>저녁 (16:30~21:00)</strong></td>
+                        <td>농협하나로마트 경주농협본점 장보기 &rarr; 숙소 체크인 &amp; 바비큐</td>
+                        <td>기념품(최영화빵/황남빵) 구매 후 부산역 복귀</td>
+                    </tr>
+                    <tr>
+                        <td><strong>야간 (21:00~)</strong></td>
+                        <td>월정교 &amp; 동궁과월지 야경 투어 및 숙소 2차 술자리</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentLang = 'ko';
+
+    const translations = {
+        ko: {
+            btnText: "日本語",
+            mainTitle: "경주 5인 MT 일정 안내",
+            routeTitle: "1. 부산역 출발 추천 이동 경로 (5인 기준)",
+            routeList: `
+                <li><strong>SRT / KTX 이용 (가장 빠르고 편한 방법)</strong><br>
+                    경로: 부산역 &rarr; 신경주역 (KTX/SRT로 약 30분 소요, 1인 편도 약 11,000원)</li>
+                <li><strong>신경주역 도착 후 현지 이동:</strong><br>
+                    5인 인원이므로 신경주역에서 카카오 T 벤티(대형 택시) 1대를 호출하거나 일반 택시 2대로 황리단길까지 이동 (약 20분 소요, 벤티 기준 약 20,000원 내외).<br>
+                    또는 신경주역 쏘카존에서 카니발/5인 이상 SUV 렌트 후 출발.</li>
+            `,
+            scheduleTitle: "2. 동선 최적화 1박 2일 일정표",
+            thTime: "시간대",
+            thDay1: "1일차 일정",
+            thDay2: "2일차 일정",
+            scheduleBody: `
+                <tr>
+                    <td><strong>오전 (10:30~11:30)</strong></td>
+                    <td>부산역 출발 &rarr; 경주 이동<br><small>(열차 30분 / 차 1시간 10분)</small></td>
+                    <td>숙소 체크아웃 &rarr; 보문단지 이동</td>
+                </tr>
+                <tr>
+                    <td><strong>점심 (11:30~13:00)</strong></td>
+                    <td>황남경주식당 또는 향화정<br><small>(황리단길 입구 위치)</small></td>
+                    <td>함양집 (한우물회 해장) 또는 삼릉 고향칼국수</td>
+                </tr>
+                <tr>
+                    <td><strong>오후 (13:00~16:30)</strong></td>
+                    <td>황리단길 카페(스컹크웍스) &amp; 대릉원/첨성대 산책</td>
+                    <td>경주루지월드 레이싱 &amp; 보문호수 카페(아덴)</td>
+                </tr>
+                <tr>
+                    <td><strong>저녁 (16:30~21:00)</strong></td>
+                    <td>농협하나로마트 경주농협본점 장보기 &rarr; 숙소 체크인 &amp; 바비큐</td>
+                    <td>기념품(최영화빵/황남빵) 구매 후 부산역 복귀</td>
+                </tr>
+                <tr>
+                    <td><strong>야간 (21:00~)</strong></td>
+                    <td>월정교 &amp; 동궁과월지 야경 투어 및 숙소 2차 술자리</td>
+                    <td>-</td>
+                </tr>
+            `
+        },
+        ja: {
+            btnText: "한국어",
+            mainTitle: "慶州 5人MT日程案内",
+            routeTitle: "1. 釜山駅出発 おすすめ logical 移動ルート (5人基準)",
+            routeList: `
+                <li><strong>SRT / KTX 利用（最も速く快適な方法）</strong><br>
+                    ルート: 釜山駅 &rarr; 新慶州駅（KTX/SRTで約30分、1人片道約11,000ウォン）</li>
+                <li><strong>新慶州駅到着後の現地移動:</strong><br>
+                    5人のため、新慶州駅からカ카오Tベンティ（大型タクシー）1台を呼ぶか、一般タクシー2台で皇理団路（ファンリダンギル）まで移動（約20分、ベン티基準約20,000ウォン前後）。<br>
+                    または新慶州駅SOCARゾーンでカーニバル/5人乗り以上のSUVをレンタカーして出発。</li>
+            `,
+            scheduleTitle: "2. 動線最適化 1泊2日 スケジュール表",
+            thTime: "時間帯",
+            thDay1: "1日目の日程",
+            thDay2: "2日目の日程",
+            scheduleBody: `
+                <tr>
+                    <td><strong>午前 (10:30~11:30)</strong></td>
+                    <td>釜山駅出発 &rarr; 慶州へ移動<br><small>（列車 30分 / 車 1時間10分）</small></td>
+                    <td>宿チェックアウト &rarr; 普門団地へ移動</td>
+                </tr>
+                <tr>
+                    <td><strong>昼食 (11:30~13:00)</strong></td>
+                    <td>皇南慶州食堂 または 向花亭（ヒャンファジョン）<br><small>（皇理団路の入口に位置）</small></td>
+                    <td>咸陽集（ハミャンジプ：韓牛水刺身で二日酔い解消）または 三陵故郷カルグクス</td>
+                </tr>
+                <tr>
+                    <td><strong>午後 (13:00~16:30)</strong></td>
+                    <td>皇理団路カフェ（Skunk Works）&amp; 大陵苑/瞻星台 散策</td>
+                    <td>慶州ルージュワールド レー싱 &amp; 普門湖カフェ（Aden）</td>
+                </tr>
+                <tr>
+                    <td><strong>夕方 (16:30~21:00)</strong></td>
+                    <td>農協ハナロマート 慶州農協本店で買い出し &rarr; 宿チェックイン &amp; バーベキュー</td>
+                    <td>お土産（崔 weon화パン/皇南パン）購入後、釜山駅へ meo復帰</td>
+                </tr>
+                <tr>
+                    <td><strong>夜間 (21:00~)</strong></td>
+                    <td>月精橋 &amp; 東宮と月池 夜景ツアーおよび宿での2次会</td>
+                    <td>-</td>
+                </tr>
+            `
+        }
+    };
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'ko' ? 'ja' : 'ko';
+        const langData = translations[currentLang];
+
+        document.getElementById('lang-btn').innerText = langData.btnText;
+        document.getElementById('main-title').innerText = langData.mainTitle;
+        document.getElementById('route-title').innerText = langData.routeTitle;
+        document.getElementById('route-list').innerHTML = langData.routeList;
+        document.getElementById('schedule-title').innerText = langData.scheduleTitle;
+        document.getElementById('th-time').innerText = langData.thTime;
+        document.getElementById('th-day1').innerText = langData.thDay1;
+        document.getElementById('th-day2').innerText = langData.thDay2;
+        document.getElementById('schedule-body').innerHTML = langData.scheduleBody;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shimhyeonju | Portfolio</title>
+    <!-- 구글 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 디자인 시스템 가이드라인 --- */
+        :root {
+            --primary: #c8967e;          /* 차분하고 정갈한 로즈 골드 */
+            --primary-dark: #a8725a;     /* 에스프레소 브라운 */
+            --accent: #556b2f;           /* 클린 뷰티 내추럴 카키 */
+            --bg-color: #faf7f2;         /* 스킨케어 텍스처 오프 화이트 */
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #2b2725;        /* 다크 차콜 */
+            --text-sub: #706864;
+            --border-color: rgba(200, 150, 126, 0.25);
+            
+            /* 정밀한 정렬 및 여백 가이드 */
+            --container-width: 1040px;
+            --spacing-xl: 100px;
+            --spacing-lg: 60px;
+            --spacing-md: 30px;
+            --spacing-sm: 20px;
+            --border-radius: 20px;
+            --shadow: 0 15px 35px rgba(168, 114, 90, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1513;
+            --card-bg: rgba(38, 30, 27, 0.85);
+            --text-main: #f5ede8;
+            --text-sub: #baa9a2;
+            --border-color: rgba(200, 150, 126, 0.15);
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- 기본 리셋 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.8;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* 페이지 진행 바 */
+        .progress-bar-top {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 1001;
+            transition: width 0.1s ease-out;
+        }
+
+        /* 에센스 거품 배경 */
+        #bubble-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(200, 150, 126, 0.08);
+            border-radius: 50%;
+            animation: rise 10s infinite linear;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- 고정 네비게이션 --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: rgba(250, 247, 242, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--primary-dark);
+            background: rgba(200, 150, 126, 0.1);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- 레이아웃 컨테이너 --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 섹션 패딩 및 여백 설정 */
+        section {
+            padding: var(--spacing-xl) 0 40px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .section-header p {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        /* --- 1. HERO SECTION --- */
+        #hero-section {
+            padding-top: 140px; 
+            padding-bottom: 40px;
+        }
+
+        .hero-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-lg);
+            display: grid;
+            grid-template-columns: 1fr 1.7fr;
+            gap: var(--spacing-md);
+            align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .hero-img-box {
+            position: relative;
+            border-radius: 50% 50% 0 0; 
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 30px rgba(168, 114, 90, 0.15);
+            height: 330px;
+            width: 100%;
+        }
+
+        .hero-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-tag {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .hero-text h1 {
+            font-size: 2rem;
+            margin-bottom: 18px;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(120deg, rgba(200, 150, 126, 0.15) 0%, rgba(200, 150, 126, 0.35) 100%);
+            padding: 2px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            color: var(--primary-dark);
+            margin-top: 5px;
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            color: var(--text-sub);
+        }
+
+        /* --- 2. ABOUT ME SECTION --- */
+        .about-wrapper {
+            display: grid;
+            grid-template-columns: 1.6fr 1.4fr;
+            gap: var(--spacing-md);
+        }
+
+        .about-main-card {
+            background: var(--card-bg);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .about-main-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .about-main-card p {
+            margin-bottom: 18px;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .value-item {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .value-item h4 {
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .value-item p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .about-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            padding: 18px 22px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card .icon {
+            font-size: 1.5rem;
+            background: rgba(200, 150, 126, 0.15);
+            padding: 8px;
+            border-radius: 50%;
+            min-width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-card h4 {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        .info-card p {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        /* --- 3. TIMELINE SECTION --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background: var(--primary);
+            top: 0; bottom: 0; left: 50%;
+            margin-left: -1.5px;
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            right: -7px;
+            background-color: var(--bg-color);
+            border: 3.5px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: transform 0.3s;
+        }
+
+        .timeline-item:hover::after {
+            transform: scale(1.3);
+            background-color: var(--accent);
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .right::after { left: -7px; }
+
+        .timeline-content {
+            padding: 20px 25px;
+            background: var(--card-bg);
+            position: relative;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .timeline-content p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* --- 4. SKILLS SECTION --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: var(--spacing-sm);
+        }
+
+        .skills-category {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .skills-category h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .skill-item {
+            margin-bottom: 15px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .progress-bg {
+            background: rgba(0,0,0,0.05);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            width: 0%;
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        /* --- 5. CONTACT SECTION --- */
+        .contact-box {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            padding: var(--spacing-lg) var(--spacing-md);
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; 
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-info h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.7rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            margin-top: 15px;
+        }
+
+        .contact-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .contact-detail-item .icon {
+            font-size: 1.2rem;
+            background: rgba(200, 150, 126, 0.15);
+            padding: 8px;
+            border-radius: 50%;
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-detail-item a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        /* 원클릭 심플 이메일 발송 영역 */
+        .contact-action-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .direct-mail-btn {
+            display: inline-block;
+            background: var(--primary-dark);
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(168, 114, 90, 0.2);
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .direct-mail-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .sns-quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .sns-btn {
+            font-size: 0.8rem;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(200, 150, 126, 0.1);
+            padding: 6px 16px;
+            border-radius: 15px;
+            transition: background 0.3s;
+        }
+
+        .sns-btn:hover {
+            background: rgba(200, 150, 126, 0.2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 35px 0;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: var(--text-sub);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+        }
+
+        /* --- 반응형 레이아웃 스타일 --- */
+        @media (max-width: 992px) {
+            .hero-card {
+                grid-template-columns: 1fr;
+                padding: var(--spacing-md);
+                text-align: center;
+            }
+            .hero-img-box {
+                width: 220px; height: 220px;
+                border-radius: 50%;
+                margin: 0 auto;
+            }
+            .about-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .contact-box {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: var(--spacing-lg) 0 40px 0;
+            }
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 20px;
+            }
+            .timeline-item.right {
+                left: 0%;
+            }
+            .timeline-item::after {
+                left: 23px;
+            }
+            .right::after {
+                left: 23px;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 진행도 표시 -->
+    <div class="progress-bar-top" id="scroll-progress"></div>
+
+    <!-- 세럼 물방울 배경 -->
+    <div id="bubble-bg"></div>
+
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">shimhyeonju</a>
+            <ul class="nav-links">
+                <li><a href="#hero-section" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#timeline-sec" class="nav-link">Timeline</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><button id="theme-toggle" class="theme-toggle" aria-label="테마 변경">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="container">
+
+        <!-- 1. HERO SECTION -->
+        <section id="hero-section" class="visible">
+            <div class="hero-card">
+                <div class="hero-img-box">
+                    <img src="profile.jpg" alt="심현주 프로필" id="hero-profile-img">
+                </div>
+                <div class="hero-text">
+                    <span class="hero-tag">Global Cosmetic-Media Specialist</span>
+                    <h1>안녕하세요, <br><span class="hero-highlight">심현주 (shimhyeonju)</span> 입니다.</h1>
+                    <p>화장품 제형 R&D 역량과 메디컬 피부 임상지식을 갖추고, 이를 세련된 '영상 미디어콘텐츠' 기획 및 촬영/편집력으로 디지털화하여 세계 시장과 소통하는 글로벌 뷰티 크리에이터 전문가입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT ME SECTION -->
+        <section id="about">
+            <div class="section-header">
+                <h2>About Me</h2>
+                <p>단일 전공의 한계를 넘어, 연구 성과에 미디어를 더해 시각화합니다.</p>
+            </div>
+            <div class="about-wrapper">
+                <div class="about-main-card">
+                    <h3>크리에이티브 R&D 철학</h3>
+                    <p>화장품 개발 지식을 넘어, 복수전공인 <strong>미디어콘텐츠학과</strong>를 통해 배양한 기획, 촬영, 영상 편집 능력을 주 무기로 삼고 있습니다. 연구실의 데이터와 수상을 기록하는 것에 멈추지 않고, 화장품의 제형과 효능 메커니즘을 트렌디한 디지털 영상 포맷으로 완벽히 가공하여 타겟 유저들에게 가시적인 매력을 전달할 수 있습니다.</p>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <h4>📸 크리에이티브 미디어</h4>
+                            <p>기획안 설계부터 현장 카메라 촬영, 프리미어 및 에프터이펙트를 활용한 전문 편집이 가능합니다.</p>
+                        </div>
+                        <div class="value-item">
+                            <h4>🌱 실무형 임상 케어력</h4>
+                            <p>피부 및 메이크업 공인 자격 취득을 통해, 타겟 제형의 우수성을 임상적으로 해석할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-sidebar">
+                    <div class="info-card" style="border: 2.5px solid var(--primary);">
+                        <div class="icon">🏆</div>
+                        <div>
+                            <h4>LICENSES</h4>
+                            <p>미용사(피부) 국가자격증 <span class="badge">국가기술</span></p>
+                            <p style="margin-top: 4px;">미용사(메이크업) 국가자격증 <span class="badge">국가기술</span></p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon">🏫</div>
+                        <div>
+                            <h4>MAJOR & CONVERGENCE</h4>
+                            <p>화장품학 본전공<br>미디어콘텐츠 복수전공<br>제약공학 소전공</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="icon">🇯🇵</div>
+                        <div>
+                            <h4>LANGUAGES / PREP</h4>
+                            <p>일본어 (JLPT N2 기초 준비 중)<br>K-Move 일본취업과정</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TIMELINE SECTION -->
+        <section id="timeline-sec">
+            <div class="section-header">
+                <h2>My Timeline</h2>
+                <p>배움, 자격, 미디어, 그리고 글로벌 챌린지로 증명해 온 심현주의 발자취입니다.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026.03 - 현재</div>
+                        <h3>🌏 K-Move 해외취업 지원 프로그램</h3>
+                        <p>일본 뷰티/IT 계열 진출을 목표로 기초 비즈니스 어휘 연수, JLPT N2 자격증 기초 학습 및 IT 웹디자인 기초 역량 이수 중</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025.07</div>
+                        <h3>🏅 미용사(피부 & 메이크업) 국가공인 자격 취득</h3>
+                        <p>이론을 실제 임상 및 예술적 색조 구현력과 연결하기 위해 주도적으로 피부 관리 및 메이크업 국가기술자격 2종 취득 완수</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025.03</div>
+                        <h3>🎥 미디어콘텐츠 & 제약공학 융합 이수</h3>
+                        <p>미디어콘텐츠학과 복수전공으로 디지털 기획력 배양 및 제약공학과 소전공을 연계해 화장품 안전성 시너지 연구 이수</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023.03</div>
+                        <h3>🏫 경성대학교 화장품학과 입학</h3>
+                        <p>화장품의 제형과 생물학적 메커니즘을 마스터하기 위해 입학하여, R&D의 뼈대를 이루는 필수 실습 및 전공 과정 수련</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SKILLS SECTION -->
+        <section id="skills">
+            <div class="section-header">
+                <h2>Technical Skills</h2>
+                <p>단단하게 구축해 온 현주만의 하이브리드 전문성 맵입니다.</p>
+            </div>
+            <div class="skills-grid">
+                <!-- 스킬 카테고리 1 -->
+                <div class="skills-category">
+                    <h3>🔬 제형 R&D & 피부 임상</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>유화 및 가용화 제형 개발</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>임상 피부 관리 & 메이크업 기술</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>제약식 피부 장벽 안정화 설계</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="80%"></div></div>
+                    </div>
+                </div>
+
+                <!-- 스킬 카테고리 2 -->
+                <div class="skills-category">
+                    <h3>🎥 미디어 제작 & IT</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>영상 카메라 촬영 및 조명 설계</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>영상 편집 (Premiere, After Effects)</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>웹 UI 디자인 및 코딩 (HTML/CSS)</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="75%"></div></div>
+                    </div>
+                </div>
+
+                <!--  스킬 카테고리 3 -->
+                <div class="skills-category">
+                    <h3>🌏 글로벌 & 비즈니스</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>기초 일본어 및 JLPT N2 준비 단계</span>
+                            <span>45%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="45%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>K-Move 해외 연수 대응 및 태도</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span>크리에이티브 기획 소통력</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" data-width="95%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CONTACT SECTION -->
+        <section id="contact">
+            <div class="section-header">
+                <h2>Contact Me</h2>
+                <p>글로벌 스킨 R&D 파트너십 및 영상 미디어 협업 제안을 기다립니다.</p>
+            </div>
+            <div class="contact-box">
+                <div class="contact-info">
+                    <h3>Let's Create Together</h3>
+                    <p>화장품학 전공 지식과 미디어 기획력을 완벽히 살려 브랜드를 빛내는 주역이 되겠습니다. 협업이나 채용에 관해 궁금한 점이 있으시다면 언제든지 아래 연락처나 다이렉트 이메일 버튼을 통해 문의해 주세요.</p>
+                    <div class="contact-details">
+                        <div class="contact-detail-item">
+                            <span class="icon">📧</span>
+                            <div>
+                                <h4>Email</h4>
+                                <p><a href="mailto:shj-0409@daum.net">shj-0409@daum.net</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <span class="icon">📍</span>
+                            <div>
+                                <h4>Locations</h4>
+                                <p>서울 & 부산 위주 활동 (일본 연수 병행)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 다이렉트 연락 영역 -->
+                <div class="contact-action-zone">
+                    <a href="mailto:shj-0409@daum.net" class="direct-mail-btn">📬 심현주에게 바로 이메일 보내기</a>
+                    <div class="sns-quick-links">
+                        <a href="https://github.com/shj-0409" target="_blank" class="sns-btn">GitHub</a>
+                        <a href="#" class="sns-btn">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>© 2026 shimhyeonju. Global Cosmetic-Tech Developer.</p>
+    </footer>
+
+    <!-- --- 자바스크립트 모듈 --- -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            /* 1. 에센스 세럼 방울 동적 생성 기능 */
+            const bubbleBg = document.getElementById("bubble-bg");
+            function createBubble() {
+                const bubble = document.createElement("div");
+                bubble.classList.add("bubble");
+                
+                const size = Math.random() * 40 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                bubble.style.left = `${Math.random() * 100}vw`;
+                
+                const duration = Math.random() * 8 + 6;
+                bubble.style.animationDuration = `${duration}s`;
+                
+                bubbleBg.appendChild(bubble);
+
+                setTimeout(() => {
+                    bubble.remove();
+                }, duration * 1000);
+            }
+            setInterval(createBubble, 800);
+
+            /* 2. 스무스 스크롤 & 스크롤 스파이 */
+            const sections = document.querySelectorAll("section");
+            const navLinks = document.querySelectorAll(".nav-links a");
+            const scrollProgress = document.getElementById("scroll-progress");
+
+            window.addEventListener("scroll", () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+                
+                const progress = (scrollY / totalHeight) * 100;
+                scrollProgress.style.width = `${progress}%`;
+
+                let currentSec = "";
+                sections.forEach(sec => {
+                    const secTop = sec.offsetTop;
+                    if (scrollY >= (secTop - 250)) {
+                        currentSec = sec.getAttribute("id");
+                    }
+                    
+                    if (scrollY >= (secTop - window.innerHeight * 0.85)) {
+                        sec.classList.add("visible");
+                        
+                        if(sec.id === "skills"){
+                            const progressFills = sec.querySelectorAll(".progress-fill");
+                            progressFills.forEach(bar => {
+                                bar.style.width = bar.getAttribute("data-width");
+                            });
+                        }
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href").includes(currentSec)) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+
+            /* 3. 라이트 & 다크 모드 토글 */
+            const themeToggle = document.getElementById("theme-toggle");
+            const savedTheme = localStorage.getItem("theme");
+
+            if (savedTheme === "dark") {
+                document.body.setAttribute("data-theme", "dark");
+                themeToggle.textContent = "☀️";
+            }
+
+            themeToggle.addEventListener("click", () => {
+                if (document.body.getAttribute("data-theme") === "dark") {
+                    document.body.removeAttribute("data-theme");
+                    themeToggle.textContent = "🌙";
+                    localStorage.setItem("theme", "light");
+                } else {
+                    document.body.setAttribute("data-theme", "dark");
+                    themeToggle.textContent = "☀️";
+                    localStorage.setItem("theme", "dark");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

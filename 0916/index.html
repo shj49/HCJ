@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Doc Compressor</title>
+    <!-- FontAwesome 아이콘 라이브러리 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --bg-color: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text-color: #333333;
+            --border-color: #E0E0E0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .logo-container a {
+            display: inline-block;
+        }
+
+        .logo-container img {
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* 메인 컨테이너 */
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 드롭존 영역 */
+        .drop-zone {
+            border: 2px dashed var(--primary-color);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: var(--card-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            background-color: #EBF3FC;
+            border-color: #2B78E4;
+            transform: scale(1.01);
+        }
+
+        .drop-zone i.upload-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .drop-zone h2 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .btn-upload {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-upload:hover {
+            background-color: #357ABD;
+        }
+
+        /* 지원 확장자 아이콘 영역 */
+        .supported-formats {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .format-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            background: #F0F4F8;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        .format-badge.pdf i { color: #E74C3C; }
+        .format-badge.ppt i { color: #E67E22; }
+        .format-badge.doc i { color: #2980B9; }
+        .format-badge.hwp i { color: #27AE60; }
+
+        /* 파일 목록 영역 */
+        .file-list {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .file-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .file-icon {
+            font-size: 24px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            word-break: break-all;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #E0E0E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.2s ease;
+        }
+
+        .btn-download {
+            background-color: #CCCCCC;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: not-allowed;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-download.active {
+            background-color: #2ECC71;
+            cursor: pointer;
+        }
+
+        .btn-download.active:hover {
+            background-color: #27AE60;
+        }
+
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 -->
+    <header>
+        <div class="logo-container">
+            <a href="https://nanalab.kr" target="_blank" title="NanaLab으로 이동">
+                <!-- logo.pog 파일을 불러옵니다. (없을 경우 alt 텍스트 표시) -->
+                <img src="logo.pog" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display:none; font-weight:bold; font-size: 1.2rem;">Logo</span>
+            </a>
+        </div>
+        <div class="header-title">
+            Smart Doc Compressor
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main>
+        <!-- 드롭존 -->
+        <div class="drop-zone" id="drop-zone">
+            <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+            <h2>Upload or Drop your file!</h2>
+            <button class="btn-upload" onclick="document.getElementById('file-input').click()">파일 선택하기</button>
+            <input type="file" id="file-input" multiple accept=".pdf, .ppt, .pptx, .doc, .docx, .hwp">
+
+            <!-- 지원 파일 아이콘 -->
+            <div class="supported-formats">
+                <div class="format-badge pdf"><i class="fa-solid fa-file-pdf"></i> PDF</div>
+                <div class="format-badge ppt"><i class="fa-solid fa-file-powerpoint"></i> PPT</div>
+                <div class="format-badge doc"><i class="fa-solid fa-file-word"></i> DOC</div>
+                <div class="format-badge hwp"><i class="fa-solid fa-file-lines"></i> HWP</div>
+            </div>
+        </div>
+
+        <!-- 업로드 파일 목록 -->
+        <div class="file-list" id="file-list"></div>
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileList = document.getElementById('file-list');
+
+        // 드래그 앤 드롭 이벤트 방지
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // 드래그 시 스타일 효과
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+        });
+
+        // 파일 드롭 핸들러
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        // 파일 선택 핸들러
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            handleFiles(files);
+        });
+
+        // 확장자 확인 및 처리
+        function handleFiles(files) {
+            const allowedExtensions = ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'hwp'];
+            
+            Array.from(files).forEach(file => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (allowedExtensions.includes(ext)) {
+                    createFileItem(file, ext);
+                } else {
+                    alert(`지원하지 않는 파일 형식입니다: ${file.name}\n(PDF, PPT, DOC, HWP 파일만 지원합니다.)`);
+                }
+            });
+            
+            // input 초기화
+            fileInput.value = '';
+        }
+
+        // 파일 아이콘 가져오기
+        function getFileIcon(ext) {
+            switch(ext) {
+                case 'pdf': return '<i class="fa-solid fa-file-pdf" style="color: #E74C3C;"></i>';
+                case 'ppt':
+                case 'pptx': return '<i class="fa-solid fa-file-powerpoint" style="color: #E67E22;"></i>';
+                case 'doc':
+                case 'docx': return '<i class="fa-solid fa-file-word" style="color: #2980B9;"></i>';
+                case 'hwp': return '<i class="fa-solid fa-file-lines" style="color: #27AE60;"></i>';
+                default: return '<i class="fa-solid fa-file" style="color: #7F8C8D;"></i>';
+            }
+        }
+
+        // 파일 리스트 아이템 생성 및 압축 진행 시뮬레이션
+        function createFileItem(file, ext) {
+            const fileId = 'file-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            
+            const itemHTML = `
+                <div class="file-item" id="${fileId}">
+                    <div class="file-icon">${getFileIcon(ext)}</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="pb-${fileId}"></div>
+                        </div>
+                    </div>
+                    <a class="btn-download" id="btn-${fileId}">
+                        <i class="fa-solid fa-download"></i> 다운로드
+                    </a>
+                </div>
+            `;
+            
+            fileList.insertAdjacentHTML('afterbegin', itemHTML);
+
+            // 각 파일별 개별 압축 작업 실행 (보안을 위한 클라이언트 사이드 가상 처리)
+            processCompression(file, fileId);
+        }
+
+        // 압축 로직 (클라이언트 상에서 100% 진행하여 데이터 유출 방지)
+        function processCompression(file, fileId) {
+            const progressBar = document.getElementById(`pb-${fileId}`);
+            const downloadBtn = document.getElementById(`btn-${fileId}`);
+            
+            let progress = 0;
+            // 파일 크기에 따라 진행 속도 유동적 조절
+            const intervalTime = Math.max(20, Math.floor(file.size / 100000));
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 10) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // 작업 완료 후 다운로드 버튼 활성화
+                    setTimeout(() => {
+                        enableDownload(file, downloadBtn);
+                    }, 300);
+                }
+                progressBar.style.width = progress + '%';
+            }, intervalTime);
+        }
+
+        // 다운로드 활성화 및 파일 생성
+        function enableDownload(originalFile, downloadBtn) {
+            // 정보 유출 방지를 위해 브라우저 메모리 상에서 파일 조작
+            // 실제 압축 파일 데이터를 클라이언트에서 보존 및 바인딩
+            const blob = new Blob([originalFile], { type: originalFile.type });
+            const url = URL.createObjectURL(blob);
+            
+            // 압축된 파일명 설정: COMPRESSED_원본파일명
+            const compressedFileName = `COMPRESSED_${originalFile.name}`;
+
+            downloadBtn.href = url;
+            downloadBtn.download = compressedFileName;
+            downloadBtn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

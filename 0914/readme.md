@@ -1,1 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>김민준 ❤️ 이서연 결혼합니다</title>
+    <!-- 구글 폰트 연동 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Parisienne&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f2efe9;
+            color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        /* 스마트폰 화면 최적화 프레임 */
+        .mobile-container {
+            width: 100%;
+            max-width: 430px;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: relative;
+        }
+        /* 메인 상단 */
+        .hero-section {
+            text-align: center;
+            padding: 50px 20px 30px 20px;
+            background: linear-gradient(180deg, #faf7f2 0%, #ffffff 100%);
+        }
+        .hero-subtitle {
+            font-family: 'Parisienne', cursive;
+            font-size: 28px;
+            color: #b58d88;
+            margin-bottom: 10px;
+        }
+        .hero-title {
+            font-family: 'Gowun Batang', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c2c2c;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+        .main-img-box {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+        .main-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .wedding-date-text {
+            font-family: 'Gowun Batang', serif;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            letter-spacing: 1px;
+        }
 
+        /* 섹션 공통 */
+        .section {
+            padding: 40px 25px;
+            text-align: center;
+        }
+        .section-title {
+            font-family: 'Parisienne', cursive;
+            font-size: 26px;
+            color: #b58d88;
+            margin-bottom: 5px;
+        }
+        .section-subtitle {
+            font-family: 'Gowun Batang', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+        .divider {
+            text-align: center;
+            margin: 10px 0;
+            color: #d2c4b9;
+            font-size: 14px;
+        }
+
+        /* 초대의 글 */
+        .invitation-text {
+            font-family: 'Gowun Batang', serif;
+            font-size: 15px;
+            line-height: 2.2;
+            color: #555;
+            margin-bottom: 35px;
+            word-break: keep-all;
+        }
+        .couple-names {
+            font-family: 'Gowun Batang', serif;
+            font-size: 15px;
+            color: #333;
+            border-top: 1px solid #f0eae1;
+            border-bottom: 1px solid #f0eae1;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .couple-names span {
+            font-weight: 700;
+            color: #2c2c2c;
+        }
+
+        /* D-Day 카운트다운 */
+        .timer-bg {
+            background-color: #faf7f2;
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin: 10px 0;
+        }
+        .countdown-title {
+            font-family: 'Gowun Batang', serif;
+            font-size: 15px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        .timer-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .timer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timer-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #b58d88;
+            background: #ffffff;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(181, 141, 136, 0.15);
+            margin-bottom: 8px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        .timer-label {
+            font-size: 11px;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* 갤러리 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .gallery-item {
+            width: 100%;
+            height: 170px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 오시는 길 */
+        .location-box {
+            background: #ffffff;
+            border: 1px solid #f0eae1;
+            border-radius: 12px;
+            padding: 22px;
+            text-align: left;
+        }
+        .location-box h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .location-box p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 푸터 */
+        .footer {
+            padding: 35px 20px;
+            background-color: #faf7f2;
+            text-align: center;
+            font-size: 12px;
+            color: #bbb;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    <!-- 메인 이미지 섹션 -->
+    <div class="hero-section">
+        <div class="hero-subtitle">Wedding Invitation</div>
+        <div class="hero-title">김민준 & 이서연</div>
+        <div class="main-img-box">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="메인 웨딩 사진">
+        </div>
+        <div class="wedding-date-text">
+            2026년 12월 19일 토요일 오후 12시 30분<br>
+            서울 아모리스 홀 1층 그랜드볼룸
+        </div>
+    </div>
+
+    <!-- 초대의 글 섹션 -->
+    <div class="section">
+        <div class="section-title">Invitation</div>
+        <div class="section-subtitle">초대의 글</div>
+        <div class="invitation-text">
+            초대합니다.<br><br>
+            저희의 영원한 사랑을 깨지지 않는 약속으로<br>
+            하늘에 아로새겨 서로의 동반자가 되어<br>
+            인생의 여정을 출발하고자 합니다.<br><br>
+            저희 두 사람의 약속이 더욱 빛날 수 있도록<br>
+            부디 방문하시어 따뜻한 격려와 축복을 부탁드립니다.
+        </div>
+        
+        <div class="couple-names">
+            <div>김성태 · 박영희의 아들 <span>민준</span></div>
+            <div>이동철 · 최정숙의 딸 <span>서연</span></div>
+        </div>
+    </div>
+
+    <div class="divider">✦ ✦ ✦</div>
+
+    <!-- 카운트다운 섹션 -->
+    <div class="section" style="padding-top: 10px;">
+        <div class="timer-bg">
+            <div class="countdown-title">결혼식까지 남은 시간</div>
+            <div class="timer-grid">
+                <div class="timer-item">
+                    <div class="timer-value" id="days">00</div>
+                    <div class="timer-label">DAYS</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="hours">00</div>
+                    <div class="timer-label">HOURS</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="minutes">00</div>
+                    <div class="timer-label">MINS</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="seconds">00</div>
+                    <div class="timer-label">SECS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 갤러리 섹션 -->
+    <div class="section">
+        <div class="section-title">Gallery</div>
+        <div class="section-subtitle">소중한 순간들</div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=500&q=80" alt="갤러리 1"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=500&q=80" alt="갤러리 2"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=500&q=80" alt="갤러리 3"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=500&q=80" alt="갤러리 4"></div>
+        </div>
+    </div>
+
+    <!-- 오시는 길 섹션 -->
+    <div class="section">
+        <div class="section-title">Location</div>
+        <div class="section-subtitle">오시는 길</div>
+        <div class="location-box">
+            <h4>서울 아모리스 홀</h4>
+            <p>서울특별시 강남구 테헤란로 123</p>
+            <p style="margin-top: 5px; font-size: 13px; color: #888;">TEL. 02-1234-5678</p>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <div class="footer">
+        Thank you for sharing our special day.<br>
+        © 2026 Mobile Wedding Invitation
+    </div>
+</div>
+
+<script>
+    // 예식 일시 설정 (2026년 12월 19일 12:30:00)
+    const weddingDate = new Date('2026-12-19T12:30:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            document.getElementById('days').innerText = "00";
+            document.getElementById('hours').innerText = "00";
+            document.getElementById('minutes').innerText = "00";
+            document.getElementById('seconds').innerText = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = String(days).padStart(2, '0');
+        document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-# 💄 Shim Hyeonju — Global Cosmetic-Media Specialist Portfolio
+# 💄 심현주 — Global Cosmetic-Media Specialist Portfolio
 
 > **화장품 제형 R&D**의 깊이와 **미디어콘텐츠 기획/제작력**을 결합하여 글로벌 시장과 소통하는 심현주의 개인 포트폴리오 웹페이지입니다.
 

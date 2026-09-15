@@ -7,7 +7,7 @@ HTML5와 CSS3를 활용하여 제작한 개인 온라인 웹 이력서 페이지
 
 ## 🌐 데모 및 배포 링크
 - **저장소 링크:** [https://github.com/shj49/HCJ](https://github.com/shj49/HCJ)
-- **GitHub Pages 배포:** `https://shj49.github.io/HCJ/<해당폴더명>/index.html`
+- **GitHub Pages 배포:** `https://shj49.github.io/HCJ/0724/index.html`
 
 ---
 
